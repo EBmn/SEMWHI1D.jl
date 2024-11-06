@@ -23,7 +23,7 @@ function main()
 
     numberOfNodesList = Int.(numberOfNodesList)
 
-    ordersList = [3, 4, 5, 6, 7]
+    ordersList = [2, 3, 4, 5, 6, 7]
 
     GenerateConvPlot(ordersList, numberOfNodesList, numberOfRuns)
 
@@ -78,11 +78,15 @@ function GenerateConvPlot(ordersList, numberOfNodesList, numberOfRuns)
             simul = SEM_Wave_1d.SEM_Wave(nodes, nsteps, Tend, N, fVals, omega)
             valueMatrix = SEM_Wave_1d.LaplaceMMS(simul, 1e-6, "polynomial") 
 
-            diffs[j] = maximum(abs.(valueMatrix[1] - valueMatrix[2]))
+            #diffs[j] = maximum(abs.(valueMatrix[1] - valueMatrix[2]))
+            index = Int(floor(length(valueMatrix)*0.6))
+            #diffs[j] = maximum(abs.(valueMatrix[1] - valueMatrix[2]))
+            diffs[j] = maximum(abs.(valueMatrix[1, index] - valueMatrix[2, index]))
 
         end
 
-        plot!(numberOfNodesList[1:end-1], diffs, xscale=:log10, yscale=:log10, xlims=(numberOfNodesList[1], numberOfNodesList[end]), seriestype=:scatter, label = "N = " * string(N), legend=:bottomright, ms=2.0)            
+        plot!(numberOfNodesList, diffs, xscale=:log10, yscale=:log10, xlims=(numberOfNodesList[1], numberOfNodesList[end]), label = "N = " * string(N), legend=:bottomleft)            
+        #plot!(numberOfNodesList[1:end-1], diffs, xscale=:log10, yscale=:log10, xlims=(numberOfNodesList[1], numberOfNodesList[end]), label = "N = " * string(N), legend=:bottomright)            
         println("done with N = " * string(N))        
 
     end

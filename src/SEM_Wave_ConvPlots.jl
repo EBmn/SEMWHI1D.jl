@@ -18,21 +18,23 @@ function main()
 
     numberOfRuns = 8
     numberOfNodesList = zeros(numberOfRuns)
+    timestepsList = zeros(numberOfRuns)
 
     for j = 1:numberOfRuns
-        #numberOfNodesList[j] = 5*2^j + 1
         numberOfNodesList[j] = 2^j + 1
+        timestepsList[j] = 20*2^j + 1
     end
 
     numberOfNodesList = Int.(numberOfNodesList)
+    timestepsList = Int.(timestepsList)
 
-    ordersList = [3, 4, 5, 6, 7]
-    #timestepLists = [4000, 6000, 9000, 15000, 18000]
-    #timestepLists = [18000, 18000, 18000, 18000, 18000]
-    timestepLists = [4000, 4000, 4000, 4000, 4000]
+    println(timestepsList)
+
+    ordersList = [3, 5, 6, 7]
+    
     omega = 6.0
 
-    GenerateConvPlot(ordersList, numberOfNodesList, timestepLists, numberOfRuns, omega)
+    GenerateConvPlot(ordersList, numberOfNodesList, timestepsList, numberOfRuns, omega)
     
 end
 
@@ -47,7 +49,7 @@ function GenerateConvPlot(ordersList, numberOfNodesList, timestepsList, numberOf
         
         #number of timesteps + outer limit of time interval
         Tend = 1.0
-        nsteps = timestepsList[n]
+        #nsteps = timestepsList[n]
 
         #outer limits of the interval we are solving the equation on
         xl = 0
@@ -61,6 +63,8 @@ function GenerateConvPlot(ordersList, numberOfNodesList, timestepsList, numberOf
             #solve the wave equation with the different numbers of nodes
             
             #set up some inital conditions and the values of the driving term f
+
+            nsteps = timestepsList[j]
 
             numberOfNodes = numberOfNodesList[j]
             
@@ -105,7 +109,7 @@ function GenerateConvPlot(ordersList, numberOfNodesList, timestepsList, numberOf
 
         println(diffs)
 
-        plot!(numberOfNodesList[1:end-1], diffs, xscale=:log10, yscale=:log10, xlims=(numberOfNodesList[1], numberOfNodesList[end]), seriestype=:scatter, label = "N = " * string(N), legend=:bottomleft)            
+        plot!(numberOfNodesList[1:end-1], diffs, xscale=:log10, yscale=:log10, xlims=(numberOfNodesList[1], numberOfNodesList[end]), label = "N = " * string(N), legend=:bottomleft)            
         println("done with N = " * string(N))        
 
     end

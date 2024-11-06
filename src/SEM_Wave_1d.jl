@@ -392,7 +392,7 @@ function LaplaceMMS(simul::SEM_Wave, tol::Float64, type)
         #make a polynomial which we will test against, and calculate its derivative symbolically
         #testPolynomial = Polynomial([1, 2, 3, 3, 5, 6, -7, 3, 1, -2, 1])
         #testPolynomial = Polynomial([0, 1, -1])^3 * Polynomial([0, 1])^4
-        testPolynomial = Polynomial([0, 1, -1])^3 * Polynomial([0, 1])^4
+        testPolynomial = Polynomial([0, 1, -1])^3 * Polynomial([0, 1])^4 *Polynomial([1, 2, -3, 4])
         #testPolynomial = Polynomial([0, 1])
         testPolynomial_xx = derivative(derivative(testPolynomial))
 
